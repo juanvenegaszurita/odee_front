@@ -1,0 +1,65 @@
+{
+  "loading": "Espere",
+  "mensage": {
+    "error": "Error",
+    "ok": "Correcto"
+  },
+  "button": {
+    "accept": "Aceptar",
+    "cancel": "Cancelar",
+    "getinto": "Ingresar",
+    "getout": "Salir",
+    "change_language": "Cambiar idioma"
+  },
+  "language": {
+    "name": {
+      "en": "Inglés",
+      "es": "Español",
+      "fa": "Persa",
+      "ar": "Arábica",
+      "ru": "Ruso"
+    },
+    "selected_message": "El idioma seleccionado actualmente es {language}",
+    "selection": {
+      "message": "Por favor seleccione un idioma de la lista",
+      "title": "Selección de idioma"
+    }
+  },
+  "validator": {
+    "email": "Por favor, introduce una dirección de correo electrónico válida.",
+    "password": "La contraseña debe tener al menos 6 caracteres.",
+    "name": "Por favor ingrese un nombre.",
+    "number": "Por favor, introduzca un número.",
+    "notEmpty": "Este es un campo obligatorio.",
+    "amount": "Por favor ingrese un número I.E. 250 - Sin símbolo de dólar y sin centavos"
+  },
+  "setting": {
+    "title": "Administración",
+    "language": "Idioma",
+    "dark": "Oscuro",
+    "light": "Luz",
+    "system": "Sistema",
+    "theme": "Tema"
+  },
+  "home": {
+    "title": "Inicio"
+  },
+  "login": {
+    "title": "Iniciar seción",
+    "emailController": "Email",
+    "passwordController": "Clave",
+    "signInErrorTitle": "Error",
+    "signInError": "Error de inicio de sesión: correo electrónico o contraseña incorrecta.",
+    "resetPasswordButton": "Enviar restablecimiento de contraseña",
+    "resetPasswordLabelButton": "¿Se te olvidó tu contraseña?",
+    "resetPasswordNoticeTitle": "Restablecimiento de contraseña Correo electrónico enviado",
+    "resetPasswordNotice": "Revise su correo electrónico y siga las instrucciones para restablecer su contraseña.",
+    "resetPasswordFailed": "Falló el correo electrónico de restablecimiento de la contraseña"
+  },
+  "prodserv": {
+    "title": "Productos Servicios",
+    "detailController": "Detalle",
+    "typeCodeController": "Tipo",
+    "priceController": "Precio"
+  }
+}

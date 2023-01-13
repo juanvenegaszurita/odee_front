@@ -1,0 +1,62 @@
+{
+  "loading": "Loading",
+  "mensage": {
+    "error": "Error",
+    "ok": "Correct"
+  },
+  "button": {
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "getinto": "Get into",
+    "getout": "Get out",
+    "change_language": "Change_Language"
+  },
+  "language": {
+    "name": {
+      "en": "Inglés",
+      "es": "Español",
+      "fa": "Persa",
+      "ar": "Arábica",
+      "ru": "Ruso"
+    },
+    "selected_message": "Currently selected language is {language}",
+    "selection": {
+      "message": "Please select a language from the list",
+      "title": "Language Selection"
+    }
+  },
+  "validator": {
+    "email": "Please enter a valid email address.",
+    "password": "The password must be at least 6 characters.",
+    "name": "Please enter a name.",
+    "number": "Please enter a number.",
+    "notEmpty": "This is a mandatory field.",
+    "amount": "Please enter a number i.e. 250 - No symbol of dollar and without cents"
+  },
+  "setting": {
+    "title": "Setting",
+    "language": "Language",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "theme": "Theme"
+  },
+  "home": {
+    "title": "Home"
+  },
+  "login": {
+    "title": "Login",
+    "emailController": "Email",
+    "passwordController": "password",
+    "signInErrorTitle": "Error",
+    "signInError": "Logon error: Email or incorrect password.",
+    "resetPasswordButton": "Send reset password",
+    "resetPasswordLabelButton": "Did you forget your password?",
+    "resetPasswordNoticeTitle": "Password restoration Email sent",
+    "resetPasswordNotice": "Review your email and follow the instructions to reset your password.",
+    "resetPasswordFailed": "The password restoration email failed"
+  },
+  "notificationPush": {
+    "title": "Notifitions"
+  }
+}

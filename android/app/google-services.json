@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "18021718333",
+    "project_id": "odee-d7f31",
+    "storage_bucket": "odee-d7f31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18021718333:android:a88bf8216164d2e9554d54",
+        "android_client_info": {
+          "package_name": "com.example.odee_front"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "18021718333-53c3j2u8c74t5oiem9jnighhth84lec5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFZTsHKlhTSaHPP6NAgCEqIn28T-ajwNo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "18021718333-53c3j2u8c74t5oiem9jnighhth84lec5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
