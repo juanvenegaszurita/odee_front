@@ -31,6 +31,11 @@ List<MenuModel> routesMenu = [
         page: const ProdServPage(),
         icon: Icons.shop,
       ),
+      RoutesMenuModel(
+        name: TypeFilePage.title,
+        page: const TypeFilePage(),
+        icon: Icons.shop,
+      ),
     ],
   ),
   MenuModel(

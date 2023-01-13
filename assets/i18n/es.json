@@ -61,5 +61,10 @@
     "detailController": "Detalle",
     "typeCodeController": "Tipo",
     "priceController": "Precio"
+  },
+  "typeFile": {
+    "title": "Tipo de Productos",
+    "mimeController": "Mime Type",
+    "nameController": "nombre"
   }
 }
