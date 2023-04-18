@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:odee_front/src/models/models.dart';
 import 'package:provider/provider.dart';
 import 'package:odee_front/src/utils/utils.dart';
 import 'package:odee_front/src/widgets/table_responsive.dart';
@@ -7,28 +8,28 @@ import 'package:odee_front/src/widgets/vertical_spacing.dart';
 import 'package:odee_front/src/widgets/widgets.dart';
 import 'package:odee_front/src/providers/providers.dart';
 
-class TypeFilePage extends StatelessWidget {
-  static String title = "typeFile.title";
-  static const route = "typeFile";
+class ClientsPage extends StatelessWidget {
+  static String title = "clients.title";
+  static const route = "clients";
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  const TypeFilePage({super.key});
+  const ClientsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TypeFileProvider(),
+      create: (_) => ClientsProvider(),
       child: ScaffoldGeneric(
         title: translate(title),
-        scaffoldKey: TypeFilePage.scaffoldKey,
-        endDrawer: FormTypeFile(),
-        body: TypeFileBody(scaffoldKey: scaffoldKey),
+        scaffoldKey: ClientsPage.scaffoldKey,
+        endDrawer: ClientsClients(),
+        body: ClientsBody(scaffoldKey: scaffoldKey),
       ),
     );
   }
 }
 
-class TypeFileBody extends StatelessWidget {
-  const TypeFileBody({
+class ClientsBody extends StatelessWidget {
+  const ClientsBody({
     Key? key,
     required this.scaffoldKey,
   }) : super(key: key);
@@ -37,7 +38,7 @@ class TypeFileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
+    final cep = Provider.of<ClientsProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -45,7 +46,7 @@ class TypeFileBody extends StatelessWidget {
           onPressed: () {
             cep.typeForm = TypeForm.CREATE;
             cep.clearForm();
-            TypeFilePage.scaffoldKey.currentState!.openEndDrawer();
+            scaffoldKey.currentState!.openEndDrawer();
           },
         ),
         const VerticalSpace(),
@@ -55,16 +56,17 @@ class TypeFileBody extends StatelessWidget {
   }
 }
 
-class FormTypeFile extends StatelessWidget {
+class ClientsClients extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  FormTypeFile({
+  ClientsClients({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
-    final double w = PageUtils.width(context) < 500? PageUtils.width(context) : 500;
+    final cep = Provider.of<ClientsProvider>(context);
+    final double w =
+        PageUtils.width(context) < 500 ? PageUtils.width(context) : 500;
     return Drawer(
       width: w,
       child: Form(
@@ -87,40 +89,70 @@ class FormTypeFile extends StatelessWidget {
               validator: Validator().notEmpty,
               decoration: InputDecoration(
                 filled: true,
-                prefixIcon: const Icon(Icons.price_change),
-                labelText: translate("typeFile.nameController"),
+                prefixIcon: const Icon(Icons.person),
+                labelText: translate("clients.nameController"),
               ),
               onSaved: (value) => cep.nameController.text = value!,
               onChanged: (value) => _formKey.currentState?.validate(),
             ),
             TextFormField(
-              controller: cep.mimeController,
+              controller: cep.rutController,
               validator: Validator().notEmpty,
               decoration: InputDecoration(
                 filled: true,
-                prefixIcon: const Icon(Icons.file_copy),
-                labelText: translate("typeFile.mimeController"),
+                prefixIcon: const Icon(Icons.key),
+                labelText: translate("clients.rutController"),
               ),
-              onSaved: (value) => cep.mimeController.text = value!,
+              onSaved: (value) => cep.rutController.text = value!,
               onChanged: (value) => _formKey.currentState?.validate(),
             ),
             TextFormField(
-              controller: cep.extensionController,
+              controller: cep.addressController,
               validator: Validator().notEmpty,
               decoration: InputDecoration(
                 filled: true,
-                prefixIcon: const Icon(Icons.extension),
-                labelText: translate("typeFile.extensionController"),
+                prefixIcon: const Icon(Icons.map),
+                labelText: translate("clients.addressController"),
               ),
-              onSaved: (value) => cep.extensionController.text = value!,
+              onSaved: (value) => cep.addressController.text = value!,
               onChanged: (value) => _formKey.currentState?.validate(),
             ),
+            GridResponsive(
+              isExternal: false,
+              tallaAll: 2,
+              porcAll: const [5, 95],
+              rowMainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Icon(Icons.extension),
+                DropdownButton(
+                  value: int.tryParse(cep.businessController.text),
+                  elevation: 16,
+                  isExpanded: true,
+                  hint: Text(translate("clients.businessController")),
+                  items: cep.listTF
+                      .map<DropdownMenuItem<int>>((BusinessModel value) {
+                    return DropdownMenuItem<int>(
+                      value: value.id,
+                      child: Row(
+                        children: [
+                          Text(value.name),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (Object? value) {
+                    cep.businessController.text = "${value!}";
+                    cep.notifyListeners();
+                  },
+                ),
+              ],
+            ),
             cep.typeForm == TypeForm.CREATE
-                ? SaveCreateButton<TypeFileProvider>(
+                ? SaveCreateButton<ClientsProvider>(
                     formKey: _formKey,
                     onPressedEnd: () => Navigator.of(context).pop(),
                   )
-                : SaveUpdateButton<TypeFileProvider>(
+                : SaveUpdateButton<ClientsProvider>(
                     formKey: _formKey,
                     onPressedEnd: () => Navigator.of(context).pop(),
                   ),
@@ -141,19 +173,33 @@ class _Table extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
-    return TableResponsive<TypeFileProvider>(
+    final cep = Provider.of<ClientsProvider>(context);
+    return TableResponsive<ClientsProvider>(
       provider: cep,
-      listTitle: const ["Id", "nombre", "Mime", "Extención", "Acciones"],
-      haveTitlePorc: const [20, 20, 27, 20, 13],
-      fields: const ["id", "name", "mime", "extension"],
+      listTitle: const [
+        "table.id",
+        "clients.nameController",
+        "clients.rutController",
+        "clients.addressController",
+        "clients.businessController",
+        "table.action"
+      ],
+      haveTitlePorc: const [10, 30, 10, 20, 17, 13],
+      fields: const [
+        "id",
+        "name",
+        "rut",
+        "address",
+        "business.name"
+      ],
       onPressedBtnEdit: (i) {
         cep.typeForm = TypeForm.EDIT;
         cep.idController.text = cep.list[i].id.toString();
         cep.nameController.text = cep.list[i].name;
-        cep.mimeController.text = cep.list[i].mime;
-        cep.extensionController.text = cep.list[i].extension;
-        TypeFilePage.scaffoldKey.currentState!.openEndDrawer();
+        cep.rutController.text = cep.list[i].rut;
+        cep.addressController.text = cep.list[i].address;
+        cep.businessController.text = cep.list[i].business_id.toString();
+        ClientsPage.scaffoldKey.currentState!.openEndDrawer();
       },
     );
   }

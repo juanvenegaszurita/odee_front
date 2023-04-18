@@ -1,6 +1,11 @@
 export 'auth.service.dart';
+export 'business.service.dart';
+export 'clients.service.dart';
+export 'file.service.dart';
 export 'notification_push.service.dart';
 export 'notifications_service.dart';
 export 'prod_serv.service.dart';
 export 'push_notification.service.dart';
+export 'role.service.dart';
 export 'type_file.service.dart';
+export 'user.service.dart';

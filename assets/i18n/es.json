@@ -4,12 +4,26 @@
     "error": "Error",
     "ok": "Correcto"
   },
+  "input": {
+    "filter": "Filtrar"
+  },
+  "crud": {
+    "create": "Nuevo",
+    "update": "Editar",
+    "delete": "Eliminar",
+    "read": "Leer"
+  },
   "button": {
     "accept": "Aceptar",
     "cancel": "Cancelar",
     "getinto": "Ingresar",
     "getout": "Salir",
     "change_language": "Cambiar idioma"
+  },
+  "table": {
+    "action": "Acciones",
+    "id": "ID",
+    "createdAt": "Fecha Creación"
   },
   "language": {
     "name": {
@@ -63,8 +77,40 @@
     "priceController": "Precio"
   },
   "typeFile": {
-    "title": "Tipo de Productos",
+    "title": "Tipo de Archivo",
     "mimeController": "Mime Type",
-    "nameController": "nombre"
+    "nameController": "nombre",
+    "extensionController": "Extención"
+  },
+  "file": {
+    "title": "Archivos",
+    "urlController": "Url",
+    "typeFileController": "Tipo de Archivo"
+  },
+  "role": {
+    "title": "Roles",
+    "descriptionController": "Descripcion"
+  },
+  "user": {
+    "title": "Usuarios",
+    "nameController": "Nombre",
+    "emailController": "Email",
+    "roleController": "Rol",
+    "UID": "UID"
+  },
+  "business": {
+    "title": "Empresa",
+    "nameController": "Nombre",
+    "businessNameController": "Razón Social",
+    "rutController": "Rut",
+    "addressController": "Dirección",
+    "userController": "Usuario"
+  },
+  "clients": {
+    "title": "Clientes",
+    "nameController": "Nombre",
+    "rutController": "Rut",
+    "addressController": "Dirección",
+    "businessController": "Empresa"
   }
 }

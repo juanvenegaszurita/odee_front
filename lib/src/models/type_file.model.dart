@@ -7,12 +7,14 @@ class TypeFileModel implements BaseModel {
     required this.id,
     required this.name,
     required this.mime,
+    required this.extension,
   });
 
   @override
   int id;
   String name;
   String mime;
+  String extension;
 
   factory TypeFileModel.fromJson(String str) => TypeFileModel.fromMap(json.decode(str));
 
@@ -22,6 +24,7 @@ class TypeFileModel implements BaseModel {
         id: json["id"],
         name: json["name"],
         mime: json["mime"],
+        extension: json["extension"],
       );
 
   @override
@@ -29,5 +32,6 @@ class TypeFileModel implements BaseModel {
         "id": id,
         "name": name,
         "mime": mime,
+        "extension": extension,
       };
 }

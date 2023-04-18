@@ -17,7 +17,7 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     final authP = Provider.of<AuthProvider>(context);
     return Drawer(
-      width: 250,
+      width: 350,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 15.0),
         child: Column(

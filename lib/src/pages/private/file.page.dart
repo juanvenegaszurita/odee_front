@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:odee_front/src/models/models.dart';
 import 'package:provider/provider.dart';
 import 'package:odee_front/src/utils/utils.dart';
 import 'package:odee_front/src/widgets/table_responsive.dart';
@@ -7,28 +8,28 @@ import 'package:odee_front/src/widgets/vertical_spacing.dart';
 import 'package:odee_front/src/widgets/widgets.dart';
 import 'package:odee_front/src/providers/providers.dart';
 
-class TypeFilePage extends StatelessWidget {
-  static String title = "typeFile.title";
-  static const route = "typeFile";
+class FilePage extends StatelessWidget {
+  static String title = "file.title";
+  static const route = "file";
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  const TypeFilePage({super.key});
+  const FilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TypeFileProvider(),
+      create: (_) => FileProvider(),
       child: ScaffoldGeneric(
         title: translate(title),
-        scaffoldKey: TypeFilePage.scaffoldKey,
-        endDrawer: FormTypeFile(),
-        body: TypeFileBody(scaffoldKey: scaffoldKey),
+        scaffoldKey: FilePage.scaffoldKey,
+        endDrawer: FormFile(),
+        body: FileBody(scaffoldKey: scaffoldKey),
       ),
     );
   }
 }
 
-class TypeFileBody extends StatelessWidget {
-  const TypeFileBody({
+class FileBody extends StatelessWidget {
+  const FileBody({
     Key? key,
     required this.scaffoldKey,
   }) : super(key: key);
@@ -37,7 +38,7 @@ class TypeFileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
+    final cep = Provider.of<FileProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -45,7 +46,7 @@ class TypeFileBody extends StatelessWidget {
           onPressed: () {
             cep.typeForm = TypeForm.CREATE;
             cep.clearForm();
-            TypeFilePage.scaffoldKey.currentState!.openEndDrawer();
+            scaffoldKey.currentState!.openEndDrawer();
           },
         ),
         const VerticalSpace(),
@@ -55,16 +56,17 @@ class TypeFileBody extends StatelessWidget {
   }
 }
 
-class FormTypeFile extends StatelessWidget {
+class FormFile extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  FormTypeFile({
+  FormFile({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
-    final double w = PageUtils.width(context) < 500? PageUtils.width(context) : 500;
+    final cep = Provider.of<FileProvider>(context);
+    final double w =
+        PageUtils.width(context) < 500 ? PageUtils.width(context) : 500;
     return Drawer(
       width: w,
       child: Form(
@@ -83,44 +85,52 @@ class FormTypeFile extends StatelessWidget {
               ),
             ),
             TextFormField(
-              controller: cep.nameController,
+              controller: cep.urlController,
               validator: Validator().notEmpty,
               decoration: InputDecoration(
                 filled: true,
                 prefixIcon: const Icon(Icons.price_change),
-                labelText: translate("typeFile.nameController"),
+                labelText: translate("file.urlController"),
               ),
-              onSaved: (value) => cep.nameController.text = value!,
+              onSaved: (value) => cep.urlController.text = value!,
               onChanged: (value) => _formKey.currentState?.validate(),
             ),
-            TextFormField(
-              controller: cep.mimeController,
-              validator: Validator().notEmpty,
-              decoration: InputDecoration(
-                filled: true,
-                prefixIcon: const Icon(Icons.file_copy),
-                labelText: translate("typeFile.mimeController"),
-              ),
-              onSaved: (value) => cep.mimeController.text = value!,
-              onChanged: (value) => _formKey.currentState?.validate(),
-            ),
-            TextFormField(
-              controller: cep.extensionController,
-              validator: Validator().notEmpty,
-              decoration: InputDecoration(
-                filled: true,
-                prefixIcon: const Icon(Icons.extension),
-                labelText: translate("typeFile.extensionController"),
-              ),
-              onSaved: (value) => cep.extensionController.text = value!,
-              onChanged: (value) => _formKey.currentState?.validate(),
+            GridResponsive(
+              isExternal: false,
+              tallaAll: 2,
+              porcAll: const [5, 95],
+              rowMainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Icon(Icons.extension),
+                DropdownButton(
+                  value: int.tryParse(cep.typeFileController.text),
+                  elevation: 16,
+                  isExpanded: true,
+                  hint: Text(translate("file.typeFileController")),
+                  items: cep.listTF
+                      .map<DropdownMenuItem<int>>((TypeFileModel value) {
+                    return DropdownMenuItem<int>(
+                      value: value.id,
+                      child: Row(
+                        children: [
+                          Text(value.name),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (Object? value) {
+                    cep.typeFileController.text = "${value!}";
+                    cep.notifyListeners();
+                  },
+                ),
+              ],
             ),
             cep.typeForm == TypeForm.CREATE
-                ? SaveCreateButton<TypeFileProvider>(
+                ? SaveCreateButton<FileProvider>(
                     formKey: _formKey,
                     onPressedEnd: () => Navigator.of(context).pop(),
                   )
-                : SaveUpdateButton<TypeFileProvider>(
+                : SaveUpdateButton<FileProvider>(
                     formKey: _formKey,
                     onPressedEnd: () => Navigator.of(context).pop(),
                   ),
@@ -141,19 +151,18 @@ class _Table extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
-    return TableResponsive<TypeFileProvider>(
+    final cep = Provider.of<FileProvider>(context);
+    return TableResponsive<FileProvider>(
       provider: cep,
-      listTitle: const ["Id", "nombre", "Mime", "Extención", "Acciones"],
-      haveTitlePorc: const [20, 20, 27, 20, 13],
-      fields: const ["id", "name", "mime", "extension"],
+      listTitle: const ["Id", "url", "Tipo de archivo", "Acciones"],
+      haveTitlePorc: const [20, 47, 20, 13],
+      fields: const ["id", "url", "typeFile.name"],
       onPressedBtnEdit: (i) {
         cep.typeForm = TypeForm.EDIT;
         cep.idController.text = cep.list[i].id.toString();
-        cep.nameController.text = cep.list[i].name;
-        cep.mimeController.text = cep.list[i].mime;
-        cep.extensionController.text = cep.list[i].extension;
-        TypeFilePage.scaffoldKey.currentState!.openEndDrawer();
+        cep.urlController.text = cep.list[i].url;
+        cep.typeFileController.text = cep.list[i].typeFile_id.toString();
+        FilePage.scaffoldKey.currentState!.openEndDrawer();
       },
     );
   }

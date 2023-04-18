@@ -56,8 +56,9 @@ class TableResponsive<P extends MaintainerProvider> extends StatelessWidget {
                                 xs: 1,
                                 xlPorc: haveTitlePorc,
                                 lgPorc: haveTitlePorc,
-                                children:
-                                    listTitle.map((e) => _title(e)).toList(),
+                                children: listTitle
+                                    .map((e) => _title(translate(e)))
+                                    .toList(),
                               ),
                             ],
                           )
@@ -80,14 +81,18 @@ class TableResponsive<P extends MaintainerProvider> extends StatelessWidget {
                                     children: [
                                       if (haveTitle) ...[
                                         ...fields.map((e) {
+                                          final eA = e.split(".");
+                                          final str = eA.length == 1
+                                              ? provider.listFilter[i]
+                                                  .toMap()[e]
+                                                  .toString()
+                                              : provider.listFilter[i]
+                                                  .toMap()[eA[0]][eA[1]]
+                                                  .toString();
                                           return Padding(
                                             padding: const EdgeInsets.only(
                                                 left: 5.0),
-                                            child: Text(
-                                              provider.listFilter[i]
-                                                  .toMap()[e]
-                                                  .toString(),
-                                            ),
+                                            child: Text(str),
                                           );
                                         }).toList(),
                                         Row(
@@ -111,23 +116,26 @@ class TableResponsive<P extends MaintainerProvider> extends StatelessWidget {
                                               const Divider(thickness: 2.5),
                                         ).toList(),
                                       ] else ...[
-                                        ...fields
-                                            .asMap()
-                                            .entries
-                                            .map(
-                                              (e) => GridResponsive(
-                                                isExternal: false,
-                                                tallaAll: 2,
-                                                porcAll: const [20, 75],
-                                                children: [
-                                                  _title(listTitle[e.key]),
-                                                  Text(provider.listFilter[i]
-                                                      .toMap()[e.value]
-                                                      .toString()),
-                                                ],
-                                              ),
-                                            )
-                                            .toList(),
+                                        ...fields.asMap().entries.map((e) {
+                                          final eA = e.value.split(".");
+                                          final str = eA.length == 1
+                                              ? provider.listFilter[i]
+                                                  .toMap()[eA[0]]
+                                                  .toString()
+                                              : provider.listFilter[i]
+                                                  .toMap()[eA[0]][eA[1]]
+                                                  .toString();
+                                          return GridResponsive(
+                                            isExternal: false,
+                                            tallaAll: 2,
+                                            porcAll: const [20, 75],
+                                            children: [
+                                              _title(
+                                                  translate(listTitle[e.key])),
+                                              Text(str),
+                                            ],
+                                          );
+                                        }).toList(),
                                         GridResponsive(
                                           isExternal: false,
                                           tallaAll: 1,

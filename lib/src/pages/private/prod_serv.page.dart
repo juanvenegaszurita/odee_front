@@ -67,8 +67,9 @@ class FormCodeError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cep = Provider.of<ProdServProvider>(context);
+    final double w = PageUtils.width(context) < 500? PageUtils.width(context) : 500;
     return Drawer(
-      width: 400,
+      width: w,
       child: Form(
         key: _formKey,
         child: GridResponsive(

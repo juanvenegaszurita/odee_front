@@ -58,5 +58,13 @@
   },
   "notificationPush": {
     "title": "Notifitions"
+  },
+  "business": {
+    "title": "Empresa",
+    "nameController": "Nombre",
+    "businessNameController": "Empresa",
+    "rutController": "Rut",
+    "addressController": "Dirección",
+    "userController": "Usuario"
   }
 }

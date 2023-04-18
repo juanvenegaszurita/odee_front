@@ -7,34 +7,65 @@ Map<String, WidgetBuilder> routes = {
   CheckAuthPage.route: (context) => const CheckAuthPage(),
   LoginPage.route: (context) => LoginPage(),
   SettingPage.route: (context) => const SettingPage(),
+  FilePage.route: (context) => const FilePage(),
+  RolePage.route: (context) => const RolePage(),
+  UserPage.route: (context) => const RolePage(),
+  BusinessPage.route: (context) => const RolePage(),
+  ClientsPage.route: (context) => const RolePage(),
   /* private */
   "home": (context) => const HomePage(),
   EmpresasPage.route: (context) => const EmpresasPage(),
   DetalleEmpresaPage.route: (context) => const DetalleEmpresaPage(),
 };
 
-/* Map<String, Widget> routesMenuModel = {
-  HomePage.title: HomePage(),
-}; */
-
 List<MenuModel> routesMenu = [
   MenuModel(
-    title: "Menú principal",
+    title: "Acciones",
     menuOptions: [
       RoutesMenuModel(
         name: EmpresasPage.title,
         page: const EmpresasPage(),
-        icon: Icons.manage_accounts,
+        icon: Icons.business_center,
+      ),
+    ],
+  ),
+  MenuModel(
+    title: "Mantenedores",
+    menuOptions: [
+      RoutesMenuModel(
+        name: ClientsPage.title,
+        page: const ClientsPage(),
+        icon: Icons.settings,
+      ),
+      RoutesMenuModel(
+        name: BusinessPage.title,
+        page: const BusinessPage(),
+        icon: Icons.settings,
       ),
       RoutesMenuModel(
         name: ProdServPage.title,
         page: const ProdServPage(),
-        icon: Icons.shop,
+        icon: Icons.settings,
       ),
       RoutesMenuModel(
         name: TypeFilePage.title,
         page: const TypeFilePage(),
-        icon: Icons.shop,
+        icon: Icons.settings,
+      ),
+      RoutesMenuModel(
+        name: FilePage.title,
+        page: const FilePage(),
+        icon: Icons.settings,
+      ),
+      RoutesMenuModel(
+        name: RolePage.title,
+        page: const RolePage(),
+        icon: Icons.settings,
+      ),
+      RoutesMenuModel(
+        name: UserPage.title,
+        page: const UserPage(),
+        icon: Icons.settings,
       ),
     ],
   ),

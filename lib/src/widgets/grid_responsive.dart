@@ -30,6 +30,7 @@ class GridResponsive extends StatelessWidget {
     this.paddingLeft = 5.0,
     this.paddingRight = 5.0,
     this.paddingTop = 5.0,
+    this.borderRadius = 0.0,
     this.tallaAll,
     this.porcAll,
     this.columMainAxisAlignment = MainAxisAlignment.start,
@@ -37,6 +38,7 @@ class GridResponsive extends StatelessWidget {
     this.rowMainAxisAlignment = MainAxisAlignment.start,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
     this.isExternal = true,
+    this.height,
   });
 
   final List<Widget> children;
@@ -53,16 +55,18 @@ class GridResponsive extends StatelessWidget {
   final int? tallaAll;
   final List<double>? porcAll;
   final bool border;
-  final Color colorBorder;  
+  final Color colorBorder;
   final double paddingBottom;
   final double paddingLeft;
   final double paddingRight;
   final double paddingTop;
+  final double borderRadius;
   final MainAxisAlignment columMainAxisAlignment;
   final CrossAxisAlignment columCrossAxisAlignment;
   final MainAxisAlignment rowMainAxisAlignment;
   final CrossAxisAlignment rowCrossAxisAlignment;
   final bool isExternal;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -146,8 +150,17 @@ class GridResponsive extends StatelessWidget {
             rowSegments,
             (indexR) => Container(
               decoration: border
-                  ? BoxDecoration(border: Border.all(color: colorBorder))
-                  : const BoxDecoration(),
+                  ? BoxDecoration(
+                      border: Border.all(color: colorBorder),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(borderRadius),
+                      ),
+                    )
+                  : BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(borderRadius),
+                      ),
+                    ),
               padding: EdgeInsets.only(
                 bottom: paddingBottom,
                 left: paddingLeft,
@@ -157,6 +170,7 @@ class GridResponsive extends StatelessWidget {
               width: listWidth == null
                   ? width
                   : ((screenWidth - 25) * listWidth[indexR] / 100),
+              height: height,
               child: child(children, ((indexC * rowSegments) + indexR)),
             ),
           ),

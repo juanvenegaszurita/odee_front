@@ -24,7 +24,15 @@ class MaintainerProvider<S extends MaintainerService, M extends BaseModel> with 
   Map<String, dynamic> body = {};
 
   MaintainerProvider() {
+    constructorStart();
     read();
+    constructorEnd();
+  }
+  Future<void> constructorStart() async {
+
+  }
+  Future<void> constructorEnd() async {
+    
   }
 
   Future<void> _read() async {
@@ -112,4 +120,9 @@ class MaintainerProvider<S extends MaintainerService, M extends BaseModel> with 
         .toList();
     notifyListeners();
   }
+  void setFormCreate() {}
+
+  void setFormUpdate() {}
+
+  void clearForm() {}
 }

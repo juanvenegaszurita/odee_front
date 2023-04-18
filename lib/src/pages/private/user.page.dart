@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:odee_front/src/models/models.dart';
 import 'package:provider/provider.dart';
 import 'package:odee_front/src/utils/utils.dart';
 import 'package:odee_front/src/widgets/table_responsive.dart';
@@ -7,28 +8,28 @@ import 'package:odee_front/src/widgets/vertical_spacing.dart';
 import 'package:odee_front/src/widgets/widgets.dart';
 import 'package:odee_front/src/providers/providers.dart';
 
-class TypeFilePage extends StatelessWidget {
-  static String title = "typeFile.title";
-  static const route = "typeFile";
+class UserPage extends StatelessWidget {
+  static String title = "user.title";
+  static const route = "user";
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  const TypeFilePage({super.key});
+  const UserPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TypeFileProvider(),
+      create: (_) => UserProvider(),
       child: ScaffoldGeneric(
         title: translate(title),
-        scaffoldKey: TypeFilePage.scaffoldKey,
-        endDrawer: FormTypeFile(),
-        body: TypeFileBody(scaffoldKey: scaffoldKey),
+        scaffoldKey: UserPage.scaffoldKey,
+        endDrawer: FormUser(),
+        body: UserBody(scaffoldKey: scaffoldKey),
       ),
     );
   }
 }
 
-class TypeFileBody extends StatelessWidget {
-  const TypeFileBody({
+class UserBody extends StatelessWidget {
+  const UserBody({
     Key? key,
     required this.scaffoldKey,
   }) : super(key: key);
@@ -37,7 +38,7 @@ class TypeFileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
+    final cep = Provider.of<UserProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -45,7 +46,7 @@ class TypeFileBody extends StatelessWidget {
           onPressed: () {
             cep.typeForm = TypeForm.CREATE;
             cep.clearForm();
-            TypeFilePage.scaffoldKey.currentState!.openEndDrawer();
+            scaffoldKey.currentState!.openEndDrawer();
           },
         ),
         const VerticalSpace(),
@@ -55,16 +56,17 @@ class TypeFileBody extends StatelessWidget {
   }
 }
 
-class FormTypeFile extends StatelessWidget {
+class FormUser extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  FormTypeFile({
+  FormUser({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
-    final double w = PageUtils.width(context) < 500? PageUtils.width(context) : 500;
+    final cep = Provider.of<UserProvider>(context);
+    final double w =
+        PageUtils.width(context) < 500 ? PageUtils.width(context) : 500;
     return Drawer(
       width: w,
       child: Form(
@@ -88,39 +90,58 @@ class FormTypeFile extends StatelessWidget {
               decoration: InputDecoration(
                 filled: true,
                 prefixIcon: const Icon(Icons.price_change),
-                labelText: translate("typeFile.nameController"),
+                labelText: translate("user.nameController"),
               ),
               onSaved: (value) => cep.nameController.text = value!,
               onChanged: (value) => _formKey.currentState?.validate(),
             ),
             TextFormField(
-              controller: cep.mimeController,
+              controller: cep.emailController,
               validator: Validator().notEmpty,
               decoration: InputDecoration(
                 filled: true,
-                prefixIcon: const Icon(Icons.file_copy),
-                labelText: translate("typeFile.mimeController"),
+                prefixIcon: const Icon(Icons.email),
+                labelText: translate("user.emailController"),
               ),
-              onSaved: (value) => cep.mimeController.text = value!,
+              onSaved: (value) => cep.emailController.text = value!,
               onChanged: (value) => _formKey.currentState?.validate(),
             ),
-            TextFormField(
-              controller: cep.extensionController,
-              validator: Validator().notEmpty,
-              decoration: InputDecoration(
-                filled: true,
-                prefixIcon: const Icon(Icons.extension),
-                labelText: translate("typeFile.extensionController"),
-              ),
-              onSaved: (value) => cep.extensionController.text = value!,
-              onChanged: (value) => _formKey.currentState?.validate(),
+            GridResponsive(
+              isExternal: false,
+              tallaAll: 2,
+              porcAll: const [5, 95],
+              rowMainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Icon(Icons.extension),
+                DropdownButton(
+                  value: int.tryParse(cep.roleController.text),
+                  elevation: 16,
+                  isExpanded: true,
+                  hint: Text(translate("user.roleController")),
+                  items: cep.listRole
+                      .map<DropdownMenuItem<int>>((RoleModel value) {
+                    return DropdownMenuItem<int>(
+                      value: value.id,
+                      child: Row(
+                        children: [
+                          Text(value.description),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (Object? value) {
+                    cep.roleController.text = "${value!}";
+                    cep.notifyListeners();
+                  },
+                ),
+              ],
             ),
             cep.typeForm == TypeForm.CREATE
-                ? SaveCreateButton<TypeFileProvider>(
+                ? SaveCreateButton<UserProvider>(
                     formKey: _formKey,
                     onPressedEnd: () => Navigator.of(context).pop(),
                   )
-                : SaveUpdateButton<TypeFileProvider>(
+                : SaveUpdateButton<UserProvider>(
                     formKey: _formKey,
                     onPressedEnd: () => Navigator.of(context).pop(),
                   ),
@@ -141,19 +162,19 @@ class _Table extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
-    return TableResponsive<TypeFileProvider>(
+    final cep = Provider.of<UserProvider>(context);
+    return TableResponsive<UserProvider>(
       provider: cep,
-      listTitle: const ["Id", "nombre", "Mime", "Extención", "Acciones"],
-      haveTitlePorc: const [20, 20, 27, 20, 13],
-      fields: const ["id", "name", "mime", "extension"],
+      listTitle: const ["table.id", "user.nameController", "user.emailController", "table.createdAt", "user.roleController", "user.UID", "table.action"],
+      haveTitlePorc: const [6, 20, 16, 17, 10, 13, 13],
+      fields: const ["id", "name", "email","createdAt", "roles.description", "UID"],
       onPressedBtnEdit: (i) {
         cep.typeForm = TypeForm.EDIT;
         cep.idController.text = cep.list[i].id.toString();
         cep.nameController.text = cep.list[i].name;
-        cep.mimeController.text = cep.list[i].mime;
-        cep.extensionController.text = cep.list[i].extension;
-        TypeFilePage.scaffoldKey.currentState!.openEndDrawer();
+        cep.emailController.text = cep.list[i].email;
+        cep.roleController.text = cep.list[i].roles_id.toString();
+        UserPage.scaffoldKey.currentState!.openEndDrawer();
       },
     );
   }

@@ -1,5 +1,10 @@
+export 'business.page.dart';
+export 'clients.page.dart';
 export 'detalleEmpresa.page.dart';
 export 'empresas.page.dart';
+export 'file.page.dart';
 export 'home.pages.dart';
 export 'prod_serv.page.dart';
+export 'role.page.dart';
 export 'type_file.page.dart';
+export 'user.page.dart';

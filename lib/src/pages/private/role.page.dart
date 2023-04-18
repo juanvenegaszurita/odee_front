@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:odee_front/src/models/models.dart';
 import 'package:provider/provider.dart';
 import 'package:odee_front/src/utils/utils.dart';
 import 'package:odee_front/src/widgets/table_responsive.dart';
@@ -7,28 +8,28 @@ import 'package:odee_front/src/widgets/vertical_spacing.dart';
 import 'package:odee_front/src/widgets/widgets.dart';
 import 'package:odee_front/src/providers/providers.dart';
 
-class TypeFilePage extends StatelessWidget {
-  static String title = "typeFile.title";
-  static const route = "typeFile";
+class RolePage extends StatelessWidget {
+  static String title = "role.title";
+  static const route = "role";
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  const TypeFilePage({super.key});
+  const RolePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TypeFileProvider(),
+      create: (_) => RoleProvider(),
       child: ScaffoldGeneric(
         title: translate(title),
-        scaffoldKey: TypeFilePage.scaffoldKey,
-        endDrawer: FormTypeFile(),
-        body: TypeFileBody(scaffoldKey: scaffoldKey),
+        scaffoldKey: RolePage.scaffoldKey,
+        endDrawer: FormRole(),
+        body: RoleBody(scaffoldKey: scaffoldKey),
       ),
     );
   }
 }
 
-class TypeFileBody extends StatelessWidget {
-  const TypeFileBody({
+class RoleBody extends StatelessWidget {
+  const RoleBody({
     Key? key,
     required this.scaffoldKey,
   }) : super(key: key);
@@ -37,7 +38,7 @@ class TypeFileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
+    final cep = Provider.of<RoleProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -45,7 +46,7 @@ class TypeFileBody extends StatelessWidget {
           onPressed: () {
             cep.typeForm = TypeForm.CREATE;
             cep.clearForm();
-            TypeFilePage.scaffoldKey.currentState!.openEndDrawer();
+            scaffoldKey.currentState!.openEndDrawer();
           },
         ),
         const VerticalSpace(),
@@ -55,16 +56,17 @@ class TypeFileBody extends StatelessWidget {
   }
 }
 
-class FormTypeFile extends StatelessWidget {
+class FormRole extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  FormTypeFile({
+  FormRole({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
-    final double w = PageUtils.width(context) < 500? PageUtils.width(context) : 500;
+    final cep = Provider.of<RoleProvider>(context);
+    final double w =
+        PageUtils.width(context) < 500 ? PageUtils.width(context) : 500;
     return Drawer(
       width: w,
       child: Form(
@@ -83,44 +85,22 @@ class FormTypeFile extends StatelessWidget {
               ),
             ),
             TextFormField(
-              controller: cep.nameController,
+              controller: cep.descriptionController,
               validator: Validator().notEmpty,
               decoration: InputDecoration(
                 filled: true,
                 prefixIcon: const Icon(Icons.price_change),
-                labelText: translate("typeFile.nameController"),
+                labelText: translate("role.descriptionController"),
               ),
-              onSaved: (value) => cep.nameController.text = value!,
-              onChanged: (value) => _formKey.currentState?.validate(),
-            ),
-            TextFormField(
-              controller: cep.mimeController,
-              validator: Validator().notEmpty,
-              decoration: InputDecoration(
-                filled: true,
-                prefixIcon: const Icon(Icons.file_copy),
-                labelText: translate("typeFile.mimeController"),
-              ),
-              onSaved: (value) => cep.mimeController.text = value!,
-              onChanged: (value) => _formKey.currentState?.validate(),
-            ),
-            TextFormField(
-              controller: cep.extensionController,
-              validator: Validator().notEmpty,
-              decoration: InputDecoration(
-                filled: true,
-                prefixIcon: const Icon(Icons.extension),
-                labelText: translate("typeFile.extensionController"),
-              ),
-              onSaved: (value) => cep.extensionController.text = value!,
+              onSaved: (value) => cep.descriptionController.text = value!,
               onChanged: (value) => _formKey.currentState?.validate(),
             ),
             cep.typeForm == TypeForm.CREATE
-                ? SaveCreateButton<TypeFileProvider>(
+                ? SaveCreateButton<RoleProvider>(
                     formKey: _formKey,
                     onPressedEnd: () => Navigator.of(context).pop(),
                   )
-                : SaveUpdateButton<TypeFileProvider>(
+                : SaveUpdateButton<RoleProvider>(
                     formKey: _formKey,
                     onPressedEnd: () => Navigator.of(context).pop(),
                   ),
@@ -141,19 +121,17 @@ class _Table extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cep = Provider.of<TypeFileProvider>(context);
-    return TableResponsive<TypeFileProvider>(
+    final cep = Provider.of<RoleProvider>(context);
+    return TableResponsive<RoleProvider>(
       provider: cep,
-      listTitle: const ["Id", "nombre", "Mime", "Extención", "Acciones"],
-      haveTitlePorc: const [20, 20, 27, 20, 13],
-      fields: const ["id", "name", "mime", "extension"],
+      listTitle: const ["Id", "description", "Acciones"],
+      haveTitlePorc: const [20, 67, 13],
+      fields: const ["id", "description"],
       onPressedBtnEdit: (i) {
         cep.typeForm = TypeForm.EDIT;
         cep.idController.text = cep.list[i].id.toString();
-        cep.nameController.text = cep.list[i].name;
-        cep.mimeController.text = cep.list[i].mime;
-        cep.extensionController.text = cep.list[i].extension;
-        TypeFilePage.scaffoldKey.currentState!.openEndDrawer();
+        cep.descriptionController.text = cep.list[i].description;
+        RolePage.scaffoldKey.currentState!.openEndDrawer();
       },
     );
   }

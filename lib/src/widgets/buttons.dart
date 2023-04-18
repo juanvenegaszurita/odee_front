@@ -21,7 +21,8 @@ class SaveCreateButton<T extends MaintainerProvider> extends StatelessWidget {
     return ElevatedButton(
       onPressed: () async {
         if (formKey!.currentState!.validate()) {
-          onPressedStart!();
+          cbp.setFormCreate();
+          if (onPressedStart != null) onPressedStart!();
           await cbp.create();
           onPressedEnd!();
         }
@@ -68,7 +69,8 @@ class SaveUpdateButton<T extends MaintainerProvider> extends StatelessWidget {
     return ElevatedButton(
       onPressed: () async {
         if (formKey!.currentState!.validate()) {
-          onPressedStart!();
+          cbp.setFormUpdate();
+          if (onPressedStart != null) onPressedStart!();
           await cbp.update();
           onPressedEnd!();
         }
@@ -88,7 +90,7 @@ class CreateButton extends StatelessWidget {
     this.onPressed,
   }) : super(key: key);
 
-final VoidCallback? onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +110,7 @@ class CancelButton extends StatelessWidget {
     this.onPressed,
   }) : super(key: key);
 
-final VoidCallback? onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
